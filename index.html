@@ -354,7 +354,7 @@
                             c.innerHTML += `<div class="pay-mark ${pcls}"></div>`;
                         }
                     }
-                    else c.innerHTML = `<span class="avail-num">${idx + 1}</span>`;
+                    else { c.innerHTML = `<span class="avail-num">${idx + 1}</span>`; c.style.backgroundColor = 'var(--gold)'; c.style.boxShadow = '0 0 10px rgba(251, 197, 49, 0.4)'; }
                     wins.forEach(w => {
                         if (w.index === idx) {
                             let bg = 'final'; if (w.type.includes('Q1')) bg = 'q1'; else if (w.type.includes('Q2')) bg = 'q2'; else if (w.type.includes('Q3')) bg = 'q3';
