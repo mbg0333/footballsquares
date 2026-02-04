@@ -148,8 +148,20 @@
         .back-btn:hover { background: #30363d; border-color: #8b949e; }
         .hidden { display: none !important; }
 
-        @media (max-width: 900px) {
+                @media (max-width: 900px) {
             .app-wrapper { height: auto; padding: 10px; }
+            .header { flex-direction: column; gap: 15px; padding: 15px; text-align: center; }
+            .header h2 { font-size: 1.4rem; order: 1; }
+            .back-btn { order: 0; width: 100%; }
+            .score-pill { order: 2; width: 100%; justify-content: center; font-size: 1.2rem; padding: 10px; }
+            .main-layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
+            .sidebar-stack { height: auto; overflow: visible; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .board-viewport { height: auto; min-height: 400px; overflow-x: auto; align-items: flex-start; justify-content: flex-start; padding: 10px; }
+            .scale-box { transform: none !important; width: auto; }
+            .grid-container { width: 650px; }
+            .team-top-name, .team-side-name { font-size: 1.5rem; }
+            .logo-top, .logo-side-rotated { height: 40px; }
+        }
             .main-layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
             .sidebar-stack { height: auto; overflow: visible; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
             .board-viewport { height: 600px; overflow-x: auto; align-items: flex-start; justify-content: flex-start; padding: 15px; }
@@ -383,3 +395,4 @@
     </script>
 </body>
 </html>
+
