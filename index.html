@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,34 +13,34 @@
             --blue: #0070f3;
             --green: #2ecc71;
             --red: #e84118;
+            --cyan: #00f2ff;
         }
 
-        html,
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             background-color: var(--bg);
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow-x: hidden;
-            overflow-y: auto !important;
+            overflow: hidden; 
             min-height: 100vh;
         }
-
-        * {
-            box-sizing: border-box;
-            letter-spacing: normal !important;
-            word-spacing: normal !important;
+        @media (max-width: 900px) {
+            html, body { overflow-y: auto !important; }
         }
+
+        * { box-sizing: border-box; letter-spacing: normal !important; word-spacing: normal !important; }
 
         .app-wrapper {
             width: 100%;
-            max-width: 1500px;
+            height: 100vh;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 1. PC LAYOUT (LOCKED - PERFECT) */
         .header {
             background: var(--card);
             border: 1px solid var(--border);
@@ -50,61 +49,45 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .header h2 {
-            color: var(--gold);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            font-weight: 900;
-        }
-
-        .score-pill {
-            background: #000;
-            padding: 8px 24px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.8rem;
-            font-weight: 900;
-        }
-
-        .main-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .sidebar-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+        }
+        .header h2 { color: var(--gold); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-weight: 900; margin: 0; }
+        .score-pill { background: #000; padding: 8px 24px; border-radius: 12px; border: 1px solid #333; display: flex; align-items: center; gap: 15px; font-size: 1.6rem; font-weight: 900; }
+        
+        .main-layout { 
+            display: grid; 
+            grid-template-columns: 280px 1fr; 
+            gap: 20px; 
+            align-items: start;
+            flex-grow: 1;
+            overflow: hidden;
         }
 
+        .sidebar-stack { overflow-y: auto; height: 100%; padding-right: 5px; }
+        .sidebar-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+        
         .board-viewport {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden;
-            min-height: 500px;
+            justify-content: center;
+            overflow: hidden; 
+            height: 100%;
+            position: relative;
         }
 
         .scale-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform-origin: top center;
-            transition: transform 0.2s;
+            transform-origin: center center;
+            transition: transform 0.1s;
             width: fit-content;
         }
 
@@ -117,309 +100,91 @@
             width: 800px;
         }
 
-        .team-top-hero {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 5px 0;
-        }
-
-        .logo-top {
-            height: 50px;
-            object-fit: contain;
-        }
-
-        .team-top-name {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--gold);
-            text-transform: uppercase;
-        }
+        .team-top-hero { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; padding: 5px 0; }
+        .logo-top { height: 60px; object-fit: contain; }
+        .team-top-name { font-size: 2rem; font-weight: 900; color: var(--gold); text-transform: uppercase; }
 
         .team-side-hero {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-right: 12px;
-            margin-right: 12px;
+            padding-right: 15px; 
+            margin-right: 15px; 
             border-right: 1px solid var(--border);
-            width: 100px;
+            width: 100px; 
         }
+        .logo-side-rotated { height: 60px; object-fit: contain; transform: rotate(-90deg); margin-bottom: 15px; }
+        .team-side-name { font-size: 2rem; font-weight: 900; color: var(--gold); text-transform: uppercase; writing-mode: vertical-lr; transform: rotate(180deg); }
 
-        .logo-side-rotated {
-            height: 50px;
-            object-fit: contain;
-            transform: rotate(-90deg);
-            margin-bottom: 12px;
+        .cell { background: var(--card); min-height: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4px; font-size: 13px; text-align: center; }
+        .cell-label { color: var(--gold); font-weight: 900; font-size: 1.2rem; }
+        .cell-sq { 
+            background: rgba(255, 255, 255, 0.03); 
+            font-weight: 700; 
+            color: #fff; 
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-
-        .team-side-name {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--gold);
-            text-transform: uppercase;
-            writing-mode: vertical-lr;
-            transform: rotate(180deg);
-        }
-
-        .cell {
-            background: var(--card);
-            min-height: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 4px;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .cell-label {
-            color: var(--gold);
-            font-weight: 900;
-            font-size: 1.2rem;
-        }
-
-        .cell-sq {
-            background: rgba(255, 255, 255, 0.04);
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .q1 {
-            background: var(--red) !important;
-            color: #fff;
-        }
-
-        .q2 {
-            background: var(--green) !important;
-            color: #fff;
-        }
-
-        .q3 {
-            background: var(--gold) !important;
-            color: #000;
-        }
-
-        .final {
-            background: var(--blue) !important;
-            color: #fff;
-        }
-
-        .tag {
-            font-size: 7px;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-top: 3px;
-        }
-        .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); margin-right: 5px; }
+        .avail-num { opacity: 0.8 !important; color: var(--cyan); font-weight: 900; font-size: 12px; }
+        
+        .pay-mark { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
         .p-venmo { background: #008CFF !important; }
         .p-cashapp { background: #00D632 !important; }
         .p-paypal { background: #003087 !important; }
-        .p-other { background: #8b949e !important; }
-        .cell-sq { position: relative; }
-        .pay-mark { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; }
+        .p-other { background: #808080 !important; }
 
-        /* LIST VIEW */
-        .board-card {
-            background: var(--card);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 25px 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
+        .q1 { background: var(--red) !important; color: #fff; }
+        .q2 { background: var(--green) !important; color: #fff; }
+        .q3 { background: var(--gold) !important; color: #000; }
+        .final { background: var(--blue) !important; color: #fff; }
+        .tag { font-size: 7px; font-weight: 900; text-transform: uppercase; margin-top: 3px; }
 
-        .board-card:hover {
-            border-color: var(--blue);
-            transform: scale(1.02);
-        }
+        .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; border: 1px solid rgba(255,255,255,0.2); }
 
-        .badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 7px;
-            font-weight: 900;
-            padding: 3px 6px;
-            border-radius: 3px;
-            text-transform: uppercase;
-        }
+        #view-list { height: 100vh; overflow-y: auto; padding: 40px 20px; }
+        .board-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; text-align: center; }
+        .board-card:hover { border-color: var(--blue); transform: scale(1.02); }
+        .badge { position: absolute; top: 8px; right: 8px; font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 3px; text-transform: uppercase; }
+        .badge-live { background: var(--blue); color: white; }
+        .badge-fund { background: var(--green); color: black; }
 
-        .badge-live {
-            background: var(--blue);
-            color: white;
-        }
-
-        .badge-fund {
-            background: var(--green);
-            color: black;
-        }
-
-        /* 3. MOBILE REFINEMENT (THE "LITTLE HELP") */
         @media (max-width: 900px) {
-            .app-wrapper {
-                padding: 8px;
-            }
-
-            .header {
-                flex-direction: column;
-                padding: 12px;
-                gap: 8px;
-                text-align: center;
-            }
-
-            .header h2 {
-                font-size: 1.1rem;
-                color: var(--gold) !important;
-                margin: 5px 0;
-            }
-
-            .score-pill {
-                font-size: 1.1rem;
-                width: 100%;
-                justify-content: center;
-                padding: 6px;
-            }
-
-            .main-layout {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .sidebar-stack {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-
-            .sidebar-card {
-                padding: 10px;
-                margin-bottom: 0;
-            }
-
-            .sidebar-card .val {
-                font-size: 1.1rem;
-            }
-
-            .sidebar-card .lb {
-                font-size: 0.55rem;
-            }
-
-            .board-viewport {
-                overflow-x: auto;
-                padding: 10px;
-                -webkit-overflow-scrolling: touch;
-                align-items: flex-start;
-                border-radius: 12px;
-            }
-
-            /* MOBILE GRID TIGHTENING */
-            .team-side-hero {
-                width: 50px;
-                margin-right: 5px;
-                padding-right: 5px;
-            }
-
-            .logo-side-rotated {
-                height: 35px;
-                margin-bottom: 8px;
-            }
-
-            .team-side-name {
-                font-size: 1.1rem;
-            }
-
-            .team-top-hero {
-                gap: 8px;
-                margin-bottom: 10px;
-            }
-
-            .logo-top {
-                height: 35px;
-            }
-
-            .team-top-name {
-                font-size: 1.1rem;
-            }
-
-            .grid-container {
-                width: 700px;
-            }
-
-            .cell {
-                min-height: 40px;
-                font-size: 10px;
-                padding: 2px;
-            }
-
-            .cell-label {
-                font-size: 0.85rem;
-            }
+            .app-wrapper { height: auto; padding: 10px; }
+            .main-layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
+            .sidebar-stack { height: auto; overflow: visible; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .board-viewport { height: 600px; overflow-x: auto; align-items: flex-start; justify-content: flex-start; }
+            .scale-box { transform: none !important; }
+            .team-side-hero { width: 60px; }
+            .team-side-name, .team-top-name { font-size: 1.2rem; }
+            .grid-container { width: 700px; }
         }
 
-        .back-btn {
-            background: #21262d;
-            color: #fff;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 0.75rem;
-        }
-
-        .lb {
-            color: #8b949e;
-            font-size: 0.65rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .val {
-            font-size: 1.8rem;
-            font-weight: 900;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .spacer {
-            height: 100px;
-        }
+        .back-btn { background: #21262d; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
+        .lb { color: #8b949e; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; }
+        .val { font-size: 1.8rem; font-weight: 900; }
+        .hidden { display: none !important; }
     </style>
 </head>
-
 <body>
-
     <div class="app-wrapper">
-        <div id="view-list" style="text-align: center;">
-            <h2
-                style="font-size: clamp(2rem, 8vw, 3rem); font-weight: 900; color: var(--gold); margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
-                LIVE DASHBOARD</h2>
-            <div id="mount-list"
-                style="display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-                <div style="grid-column: 1/-1; padding: 100px; color: #586069;">Initializing...</div>
+        <div id="view-list">
+            <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+                <h1 style="font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; color: var(--gold); margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">LIVE DASHBOARD</h1>
+                <div id="mount-list" style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                    <div style="grid-column: 1/-1; padding: 100px; color: #586069;">Initializing...</div>
+                </div>
             </div>
         </div>
 
-        <div id="view-board" class="hidden">
+        <div id="view-board" class="hidden" style="height: 100%; display: flex; flex-direction: column;">
             <div class="header">
                 <button class="back-btn" onclick="goHome()">← ALL BOARDS</button>
-                <h2 id="disp-title" style="margin:0;">BOARD NAME</h2>
+                <h2 id="disp-title">BOARD NAME</h2>
                 <div class="score-pill">
-                    <img id="logo-afc-pill" src="" style="height: 30px; display: none;">
+                    <img id="logo-afc-pill" src="" style="height: 25px; display: none;">
                     <span id="disp-score">0 - 0</span>
-                    <img id="logo-nfc-pill" src="" style="height: 30px; display: none;">
+                    <img id="logo-nfc-pill" src="" style="height: 25px; display: none;">
                 </div>
             </div>
 
@@ -427,7 +192,7 @@
                 <div class="sidebar-stack">
                     <div id="card-ben" class="sidebar-card" style="border-left: 6px solid var(--green); display: none;">
                         <div class="lb" style="color: var(--green);">Benefitting</div>
-                        <div id="v-ben" class="val" style="font-size: 1.4rem;"></div>
+                        <div id="v-ben" class="val" style="font-size: 1.3rem;"></div>
                     </div>
                     <div class="sidebar-card">
                         <div class="lb">Squares Sold</div>
@@ -438,8 +203,17 @@
                         <div id="v-sched" style="font-size: 0.8rem; margin-top: 10px;"></div>
                     </div>
                     <div class="sidebar-card">
+                        <div class="lb">Payment Key</div>
+                        <div style="font-size: 0.75rem; margin-top: 12px; display: grid; gap: 10px;">
+                            <div style="display: flex; align-items: center;"><div class="dot p-venmo"></div> VENMO</div>
+                            <div style="display: flex; align-items: center;"><div class="dot p-cashapp"></div> CASHAPP</div>
+                            <div style="display: flex; align-items: center;"><div class="dot p-paypal"></div> PAYPAL</div>
+                            <div style="display: flex; align-items: center;"><div class="dot p-other"></div> OTHER/CASH</div>
+                        </div>
+                    </div>
+                    <div class="sidebar-card">
                         <div class="lb">Winners</div>
-                        <div id="v-wins" style="font-size: 0.8rem; margin-top: 10px;"></div>
+                        <div id="v-wins" style="font-size: 0.75rem; margin-top: 10px;"></div>
                     </div>
                 </div>
 
@@ -461,7 +235,6 @@
                 </div>
             </div>
         </div>
-        <div class="spacer"></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -489,16 +262,21 @@
             boards.forEach(b => {
                 const d = document.createElement('div');
                 d.className = 'board-card';
-                d.onclick = () => { activeId = b.id; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); window.scrollTo(0, 0); };
+                d.onclick = () => { activeId = b.id; document.querySelector('.app-wrapper').style.overflow = 'hidden'; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); };
                 let badges = '';
                 if (b.score_change_mode) badges += `<span class="badge badge-live">Live</span>`;
                 if (b.fundraiser_mode) badges += `<span class="badge badge-fund" style="margin-right:45px;">Fundraiser</span>`;
-                d.innerHTML = `${badges}<h3 style="color:white; font-weight:900;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
+                d.innerHTML = `${badges}<h3 style="color:white; font-weight:900;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.7rem; text-transform:uppercase;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
                 m.appendChild(d);
             });
         }
 
-        function goHome() { activeId = null; document.getElementById('view-board').classList.add('hidden'); document.getElementById('view-list').classList.remove('hidden'); }
+        function goHome() { 
+            activeId = null; 
+            document.querySelector('.app-wrapper').style.overflow = 'auto'; 
+            document.getElementById('view-board').classList.add('hidden'); 
+            document.getElementById('view-list').classList.remove('hidden'); 
+        }
 
         function renderActive() {
             const b = boards.find(x => x.id === activeId);
@@ -520,25 +298,23 @@
             const pbox = document.getElementById('v-sched'); pbox.innerHTML = '';
             const p = b.payouts || {};
             if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:bold;">$${p.hit_payout || 0} PER HIT</div>`; }
-            else {
-                [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
-                    pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span>$${i[1] || 0}</span></div>`;
-                });
-            }
+            else { [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
+                pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span>$${i[1] || 0}</span></div>`;
+            });}
 
             if (b.fundraiser_mode && b.benefit_who) { document.getElementById('card-ben').style.display = 'block'; document.getElementById('v-ben').innerText = b.benefit_who; } else document.getElementById('card-ben').style.display = 'none';
             document.getElementById('v-sold').innerText = (b.squares || []).filter(s => s.player_name).length + ' / ' + (b.size || 100);
 
             const wbox = document.getElementById('v-wins'); wbox.innerHTML = '';
             const winners = getWinners(b);
-            if (!winners.length) wbox.innerHTML = '<div style="color:#586069; font-style:italic;">Ready...</div>';
+            if (!winners.length) wbox.innerHTML = '<div style="color:#586069; font-style:italic;">No winners yet...</div>';
             else winners.slice().reverse().forEach(w => {
                 const c = w.type.includes('Q1') ? 'var(--red)' : w.type.includes('Q2') ? 'var(--green)' : w.type.includes('Q3') ? 'var(--gold)' : 'var(--blue)';
-                wbox.innerHTML += `<div style="border-left:3px solid ${c}; padding-left:8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.9rem;">${w.player}</b><br><small style="color:#8b949e;">${w.score}</small></div><b style="color:var(--green);">$${w.payout}</b></div>`;
+                wbox.innerHTML += `<div style="border-left:3px solid ${c}; padding-left:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.85rem;">${w.player}</b><br><small style="color:#8b949e;">${w.score}</small></div><b style="color:var(--green); font-size:0.85rem;">$${w.payout}</b></div>`;
             });
 
             drawGrid(b, winners);
-            handleScaling();
+            setTimeout(handleScaling, 10);
         }
 
         function getWinners(b) {
@@ -566,9 +342,9 @@
                     const c = document.createElement('div'); c.className = 'cell cell-sq';
                     c.style.gridRow = (rs * d[2] + 2) + " / span " + d[2];
                     c.style.gridColumn = (cs * d[3] + 2) + " / span " + d[3];
-                    c.style.height = (50 * d[2]) + "px";
+                    c.style.height = (52 * d[2]) + "px";
                     if (sq.player_name) {
-                        c.innerHTML = `<span>${sq.player_name}</span>`;
+                        c.innerHTML = `<span style="font-weight:900;">${sq.player_name}</span>`;
                         if (sq.is_paid && sq.payment_method) {
                             const pm = sq.payment_method.toLowerCase();
                             let pcls = "p-other";
@@ -578,7 +354,7 @@
                             c.innerHTML += `<div class="pay-mark ${pcls}"></div>`;
                         }
                     }
-                    else c.innerHTML = `<span style="opacity:0.2; font-size:10px;">${idx + 1}</span>`;
+                    else c.innerHTML = `<span class="avail-num">${idx + 1}</span>`;
                     wins.forEach(w => {
                         if (w.index === idx) {
                             let bg = 'final'; if (w.type.includes('Q1')) bg = 'q1'; else if (w.type.includes('Q2')) bg = 'q2'; else if (w.type.includes('Q3')) bg = 'q3';
@@ -594,14 +370,17 @@
             if (window.innerWidth <= 900) return;
             const vp = document.getElementById('viewport'); const box = document.getElementById('scaleBox');
             if (!vp || !box) return;
-            const availW = vp.clientWidth - 40; const contentW = box.offsetWidth;
-            if (!contentW) return;
-            const scale = Math.min(availW / contentW, 1);
+            
+            box.style.transform = 'scale(1)';
+            const availW = vp.clientWidth - 40; 
+            const availH = vp.clientHeight - 40;
+            const contentW = box.offsetWidth;
+            const contentH = box.offsetHeight;
+            if (!contentW || !contentH) return;
+            const scale = Math.min(availW / contentW, availH / contentH, 1);
             box.style.transform = `scale(${scale})`;
-            vp.style.height = (box.offsetHeight * scale + 60) + "px";
         }
         init();
     </script>
 </body>
-
 </html>
