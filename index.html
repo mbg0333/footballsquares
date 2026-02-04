@@ -241,13 +241,20 @@
         var db, boards = [], activeId = null;
 
         function init() {
-            firebase.initializeApp({ databaseURL: DB_URL, projectId: "mysuperbowlsquares-972e2" });
+            console.log("Firebase Init Start");
+            if (!firebase.apps.length) {
+                firebase.initializeApp({ databaseURL: DB_URL, projectId: "mysuperbowlsquares-972e2" });
+            }
             db = firebase.database();
             db.ref('boards').on('value', (s) => {
+                console.log("Data Received from Firebase");
                 const val = s.val() || [];
                 boards = Array.isArray(val) ? val : Object.values(val);
                 renderLinks();
                 if (activeId) renderActive();
+            }, (err) => {
+                console.error("Firebase Error: ", err);
+                document.getElementById('mount-list').innerHTML = '<div style="color:red;">Firebase Connection Error. Check console.</div>';
             });
             window.addEventListener('resize', handleScaling);
         }
@@ -258,17 +265,24 @@
             boards.forEach(b => {
                 const d = document.createElement('div');
                 d.className = 'board-card';
-                d.onclick = () => { activeId = b.id; document.querySelector(&#x27;.app-wrapper&#x27;).style.overflow = &#x27;hidden&#x27;; document.getElementById(&#x27;view-list&#x27;).classList.add(&#x27;hidden&#x27;); document.getElementById(&#x27;view-board&#x27;).classList.remove(&#x27;hidden&#x27;); renderActive(); window.scrollTo(0,0); };
-                d.innerHTML = `<h3>${b.name}</h3><div style="color:#8b949e; font-weight:800; text-transform:uppercase; letter-spacing:1px;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
+                d.onclick = () => { 
+                    activeId = b.id; 
+                    document.querySelector('.app-wrapper').style.overflow = 'hidden'; 
+                    document.getElementById('view-list').classList.add('hidden'); 
+                    document.getElementById('view-board').classList.remove('hidden'); 
+                    renderActive(); 
+                    window.scrollTo(0,0); 
+                };
+                d.innerHTML = '<h3>' + b.name + '</h3><div style="color:#8b949e; font-weight:800; text-transform:uppercase; letter-spacing:1px;">' + (b.afc_team || 'AFC') + ' vs ' + (b.nfc_team || 'NFC') + '</div>';
                 m.appendChild(d);
             });
         }
 
         function goHome() { 
             activeId = null; 
-            document.querySelector(&#x27;.app-wrapper&#x27;).style.overflow = &#x27;auto&#x27;; 
-            document.getElementById(&#x27;view-board&#x27;).classList.add(&#x27;hidden&#x27;); 
-            document.getElementById(&#x27;view-list&#x27;).classList.remove(&#x27;hidden&#x27;); 
+            document.querySelector('.app-wrapper').style.overflow = 'auto'; 
+            document.getElementById('view-board').classList.add('hidden'); 
+            document.getElementById('view-list').classList.remove('hidden'); 
         }
 
         function renderActive() {
@@ -286,14 +300,18 @@
             let sA = 0, sN = 0;
             if (b.score_history && b.score_history.length) { const l = b.score_history[b.score_history.length - 1]; sA = l.afc; sN = l.nfc; }
             else if (b.scores) { sA = b.scores.final_afc || 0; sN = b.scores.final_nfc || 0; }
-            document.getElementById('disp-score').innerText = `${sA} - ${sN}`;
+            document.getElementById('disp-score').innerText = sA + " - " + sN;
 
             const pbox = document.getElementById('v-sched'); pbox.innerHTML = '';
             const p = b.payouts || {};
-            if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:900; font-size:1.2rem; text-align:center; padding:10px; background:rgba(0,112,243,0.1); border-radius:10px; border:1px solid rgba(0,112,243,0.2);">$${p.hit_payout || 0} PER HIT</div>`; }
-            else { [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
-                pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:6px 12px; background:rgba(255,255,255,0.03); border-radius:8px;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span style="font-weight:800;">$${i[1] || 0}</span></div>`;
-            });}
+            if (b.score_change_mode) { 
+                pbox.innerHTML = '<div style="color:var(--blue); font-weight:900; font-size:1.2rem; text-align:center; padding:10px; background:rgba(0,112,243,0.1); border-radius:10px; border:1px solid rgba(0,112,243,0.2);">$' + (p.hit_payout || 0) + ' PER HIT</div>'; 
+            }
+            else { 
+                [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
+                    pbox.innerHTML += '<div style="display:flex; justify-content:space-between; padding:6px 12px; background:rgba(255,255,255,0.03); border-radius:8px;"><span style="color:' + i[2] + '; font-weight:900;">' + i[0] + '</span><span style="font-weight:800;">$' + (i[1] || 0) + '</span></div>';
+                });
+            }
 
             if (b.fundraiser_mode && b.benefit_who) { document.getElementById('card-ben').style.display = 'block'; document.getElementById('v-ben').innerText = b.benefit_who; } else document.getElementById('card-ben').style.display = 'none';
             
@@ -305,7 +323,7 @@
             if (!winners.length) wbox.innerHTML = '<div style="color:#586069; font-style:italic;">Awaiting first hit...</div>';
             else winners.slice().reverse().forEach(w => {
                 const c = w.type.includes('Q1') ? 'var(--red)' : w.type.includes('Q2') ? 'var(--green)' : w.type.includes('Q3') ? 'var(--gold)' : 'var(--blue)';
-                wbox.innerHTML += `<div style="border-left:4px solid ${c}; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.95rem; color:#fff;">${w.player}</b><br><small style="color:#8b949e; font-weight:700;">${w.score}</small></div><b style="color:var(--green); font-size:1.1rem;">$${w.payout}</b></div>`;
+                wbox.innerHTML += '<div style="border-left:4px solid ' + c + '; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.95rem; color:#fff;">' + w.player + '</b><br><small style="color:#8b949e; font-weight:700;">' + w.score + '</small></div><b style="color:var(--green); font-size:1.1rem;">$' + w.payout + '</b></div>';
             });
 
             drawGrid(b, sqs, winners);
@@ -343,24 +361,24 @@
                     c.style.height = (54 * d[2]) + "px";
                     
                     if (sq.player_name) {
-                        c.innerHTML = `<span style="font-weight:800; font-size:0.85rem; color:#fff;">${sq.player_name}</span>`;
+                        c.innerHTML = '<span style="font-weight:800; font-size:0.85rem; color:#fff;">' + sq.player_name + '</span>';
                         if (sq.is_paid && sq.payment_method) {
                             const pm = (sq.payment_method || '').toLowerCase();
                             let pcls = "p-other"; 
                             if (pm.includes("venmo")) pcls = "p-venmo";
                             else if (pm.includes("cashapp")) pcls = "p-cashapp";
                             else if (pm.includes("paypal")) pcls = "p-paypal";
-                            c.innerHTML += `<div class="pay-mark ${pcls}"></div>`;
+                            c.innerHTML += '<div class="pay-mark ' + pcls + '"></div>';
                         }
                     } else {
-                        c.innerHTML = `<span class="avail-num">${idx + 1}</span>`;
+                        c.innerHTML = '<span class="avail-num">' + (idx + 1) + '</span>';
                         c.style.backgroundColor = 'var(--gold)';
                     }
                     
                     winners.forEach(w => {
                         if (w.index === idx) {
                             let bg = 'final'; if (w.type.includes('Q1')) bg = 'q1'; else if (w.type.includes('Q2')) bg = 'q2'; else if (w.type.includes('Q3')) bg = 'q3';
-                            c.classList.add(bg); c.innerHTML += `<div class="tag">${w.type.split(' ')[0]}</div>`;
+                            c.classList.add(bg); c.innerHTML += '<div class="tag">' + w.type.split(' ')[0] + '</div>';
                         }
                     });
                     m.appendChild(c);
@@ -382,7 +400,7 @@
             if (!contentW || !contentH) return;
             
             const scale = Math.min(availW / contentW, availH / contentH, 1);
-            box.style.transform = `scale(${scale})`;
+            box.style.transform = "scale(" + scale + ")";
         }
 
         init();
