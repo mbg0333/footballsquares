@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -241,35 +241,30 @@
         var db, boards = [], activeId = null;
 
         function init() {
-            console.log("Firebase Init Start");
             if (!firebase.apps.length) {
                 firebase.initializeApp({ databaseURL: DB_URL, projectId: "mysuperbowlsquares-972e2" });
             }
             db = firebase.database();
             db.ref('boards').on('value', (s) => {
-                console.log("Data Received from Firebase");
                 const val = s.val() || [];
                 boards = Array.isArray(val) ? val : Object.values(val);
                 renderLinks();
                 if (activeId) renderActive();
-            }, (err) => {
-                console.error("Firebase Error: ", err);
-                document.getElementById('mount-list').innerHTML = '<div style="color:red;">Firebase Connection Error. Check console.</div>';
             });
             window.addEventListener('resize', handleScaling);
         }
 
         function renderLinks() {
             const m = document.getElementById('mount-list'); m.innerHTML = '';
-            if (!boards.length) { m.innerHTML = '<div style="padding:100px;">No boards found.</div>'; return; }
+            if (!boards.length) { m.innerHTML = '<div>No boards found.</div>'; return; }
             boards.forEach(b => {
                 const d = document.createElement('div');
                 d.className = 'board-card';
                 d.onclick = () => { 
                     activeId = b.id; 
-                    document.querySelector('.app-wrapper').style.overflow = 'hidden'; 
-                    document.getElementById('view-list').classList.add('hidden'); 
-                    document.getElementById('view-board').classList.remove('hidden'); 
+                    document.querySelector(".app-wrapper").style.overflow = "hidden"; 
+                    document.getElementById("view-list").classList.add("hidden"); 
+                    document.getElementById("view-board").classList.remove("hidden"); 
                     renderActive(); 
                     window.scrollTo(0,0); 
                 };
@@ -280,9 +275,9 @@
 
         function goHome() { 
             activeId = null; 
-            document.querySelector('.app-wrapper').style.overflow = 'auto'; 
-            document.getElementById('view-board').classList.add('hidden'); 
-            document.getElementById('view-list').classList.remove('hidden'); 
+            document.querySelector(".app-wrapper").style.overflow = "auto"; 
+            document.getElementById("view-board").classList.add("hidden"); 
+            document.getElementById("view-list").classList.remove("hidden"); 
         }
 
         function renderActive() {
