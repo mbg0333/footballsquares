@@ -41,7 +41,7 @@
             padding: 20px;
         }
 
-        /* 1. PC LAYOUT (PERFECT) */
+        /* 1. PC LAYOUT (LOCKED - PERFECT) */
         .header {
             background: var(--card);
             border: 1px solid var(--border);
@@ -148,7 +148,6 @@
             margin-right: 12px;
             border-right: 1px solid var(--border);
             width: 100px;
-            /* Fixed PC width */
         }
 
         .logo-side-rotated {
@@ -218,7 +217,7 @@
             margin-top: 3px;
         }
 
-        /* [List view styles same as before] */
+        /* LIST VIEW */
         .board-card {
             background: var(--card);
             border: 2px solid var(--border);
@@ -271,13 +270,13 @@
             }
 
             .header h2 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 color: var(--gold) !important;
                 margin: 5px 0;
             }
 
             .score-pill {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 width: 100%;
                 justify-content: center;
                 padding: 6px;
@@ -300,7 +299,7 @@
             }
 
             .sidebar-card .val {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .sidebar-card .lb {
@@ -315,17 +314,11 @@
                 border-radius: 12px;
             }
 
-            .scale-box {
-                transform: none !important;
-                padding-bottom: 20px;
-            }
-
-            /* Tighter Side Team for Mobile */
+            /* MOBILE GRID TIGHTENING */
             .team-side-hero {
-                width: 60px;
-                /* Much narrower for mobile */
-                margin-right: 8px;
-                padding-right: 8px;
+                width: 50px;
+                margin-right: 5px;
+                padding-right: 5px;
             }
 
             .logo-side-rotated {
@@ -334,11 +327,11 @@
             }
 
             .team-side-name {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .team-top-hero {
-                gap: 10px;
+                gap: 8px;
                 margin-bottom: 10px;
             }
 
@@ -347,7 +340,7 @@
             }
 
             .team-top-name {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .grid-container {
@@ -361,25 +354,7 @@
             }
 
             .cell-label {
-                font-size: 0.9rem;
-            }
-
-            /* Add visual indicator that it's swipeable */
-            .board-viewport::after {
-                content: "Swipe Board ↔";
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(0, 0, 0, 0.8);
-                color: var(--gold);
-                padding: 5px 15px;
-                border-radius: 20px;
-                font-size: 10px;
-                font-weight: 800;
-                pointer-events: none;
-                z-index: 100;
-                opacity: 0.6;
+                font-size: 0.85rem;
             }
         }
 
@@ -421,11 +396,11 @@
 
     <div class="app-wrapper">
         <div id="view-list" style="text-align: center;">
-            <h1
-                style="font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; color: var(--gold); margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
-                LIVE DASHBOARD</h1>
+            <h2
+                style="font-size: clamp(2rem, 8vw, 3rem); font-weight: 900; color: var(--gold); margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
+                LIVE DASHBOARD</h2>
             <div id="mount-list"
-                style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                style="display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
                 <div style="grid-column: 1/-1; padding: 100px; color: #586069;">Initializing...</div>
             </div>
         </div>
@@ -511,7 +486,7 @@
                 let badges = '';
                 if (b.score_change_mode) badges += `<span class="badge badge-live">Live</span>`;
                 if (b.fundraiser_mode) badges += `<span class="badge badge-fund" style="margin-right:45px;">Fundraiser</span>`;
-                d.innerHTML = `${badges}<h3 style="color:white; font-weight:900;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.7rem; text-transform:uppercase;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
+                d.innerHTML = `${badges}<h3 style="color:white; font-weight:900;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
                 m.appendChild(d);
             });
         }
@@ -537,7 +512,7 @@
 
             const pbox = document.getElementById('v-sched'); pbox.innerHTML = '';
             const p = b.payouts || {};
-            if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:bold;">Manual hits pay $${p.hit_payout || 0}</div>`; }
+            if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:bold;">$${p.hit_payout || 0} PER HIT</div>`; }
             else {
                 [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
                     pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span>$${i[1] || 0}</span></div>`;
