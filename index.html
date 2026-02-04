@@ -22,23 +22,21 @@
             background-color: var(--bg);
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow: hidden; 
+            overflow-x: hidden;
+            overflow-y: auto;
             min-height: 100vh;
         }
-        @media (max-width: 900px) {
-            html, body { overflow-y: auto !important; }
-        }
 
-        * { box-sizing: border-box; letter-spacing: normal !important; word-spacing: normal !important; }
+        * { box-sizing: border-box; }
 
         .app-wrapper {
             width: 100%;
-            height: 100vh;
             max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
         .header {
@@ -49,47 +47,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-            flex-shrink: 0;
         }
-        .header h2 { color: var(--gold); text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-weight: 900; margin: 0; }
-        .score-pill { background: #000; padding: 8px 24px; border-radius: 12px; border: 1px solid #333; display: flex; align-items: center; gap: 15px; font-size: 1.6rem; font-weight: 900; }
+        .header h2 { color: var(--gold); font-weight: 900; margin: 0; }
+        .score-pill { background: #000; padding: 8px 24px; border-radius: 12px; border: 1px solid #444; display: flex; align-items: center; gap: 15px; font-size: 1.6rem; font-weight: 900; }
         
         .main-layout { 
             display: grid; 
-            grid-template-columns: 280px 1fr; 
-            gap: 20px; 
+            grid-template-columns: 320px 1fr; 
+            gap: 25px; 
             align-items: start;
-            flex-grow: 1;
-            overflow: hidden;
-            min-height: 0;
         }
 
-        .sidebar-stack { overflow-y: auto; height: 100%; padding-right: 5px; min-height: 0; }
-        .sidebar-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+        .sidebar-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
         
         .board-viewport {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow: hidden; 
-            height: 100%;
-            position: relative;
-            min-height: 0;
+            overflow: hidden;
+            min-height: 600px;
         }
 
         .scale-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform-origin: center center;
-            transition: transform 0.1s;
+            transform-origin: top center;
+            transition: transform 0.2s;
             width: fit-content;
         }
 
@@ -102,8 +92,7 @@
             width: 800px;
         }
 
-        .team-top-hero { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; padding: 5px 0; }
-        .logo-top { height: 60px; object-fit: contain; }
+        .team-top-hero { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
         .team-top-name { font-size: 2rem; font-weight: 900; color: var(--gold); text-transform: uppercase; }
 
         .team-side-hero {
@@ -116,97 +105,76 @@
             border-right: 1px solid var(--border);
             width: 100px; 
         }
-        .logo-side-rotated { height: 60px; object-fit: contain; transform: rotate(-90deg); margin-bottom: 15px; }
         .team-side-name { font-size: 2rem; font-weight: 900; color: var(--gold); text-transform: uppercase; writing-mode: vertical-lr; transform: rotate(180deg); }
 
-        .cell { background: var(--card); min-height: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4px; font-size: 13px; text-align: center; }
-        .cell-label { color: var(--gold); font-weight: 900; font-size: 1.2rem; }
-        .cell-sq { 
-            background: rgba(255, 255, 255, 0.03); 
-            font-weight: 700; 
-            color: #fff; 
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+        .cell { background: var(--card); min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4px; font-size: 13px; text-align: center; color: #fff; }
+        .cell-label { color: var(--gold); font-weight: 900; font-size: 1.3rem; }
+        .cell-sq { background: #1a1f26; border: 1px solid rgba(255,255,255,0.05); }
         .avail-num { color: #000; font-weight: 900; font-size: 18px; }
         
-        .pay-mark { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
-        .p-venmo { background: #008CFF !important; }
-        .p-cashapp { background: #00D632 !important; }
-        .p-paypal { background: #003087 !important; }
-        .p-other { background: #808080 !important; }
+        .pay-mark { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+        .p-venmo { background: #008CFF; }
+        .p-cashapp { background: #00D632; }
+        .p-paypal { background: #003087; }
+        .p-other { background: #888; }
 
         .q1 { background: var(--red) !important; color: #fff; }
         .q2 { background: var(--green) !important; color: #fff; }
         .q3 { background: var(--gold) !important; color: #000; }
         .final { background: var(--blue) !important; color: #fff; }
-        .tag { font-size: 7px; font-weight: 900; text-transform: uppercase; margin-top: 3px; }
+        .tag { font-size: 8px; font-weight: 900; text-transform: uppercase; margin-top: 3px; }
 
-        .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; border: 1px solid rgba(255,255,255,0.2); }
+        .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; }
 
-        #view-list { height: 100vh; overflow-y: auto; padding: 40px 20px; }
-        .board-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; text-align: center; }
+        .board-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 25px 15px; cursor: pointer; transition: all 0.2s; text-align: center; }
         .board-card:hover { border-color: var(--blue); transform: scale(1.02); }
-        .badge { position: absolute; top: 8px; right: 8px; font-size: 7px; font-weight: 900; padding: 3px 6px; border-radius: 3px; text-transform: uppercase; }
-        .badge-live { background: var(--blue); color: white; }
-        .badge-fund { background: var(--green); color: black; }
-
-        @media (max-width: 900px) {
-            .app-wrapper { height: auto; padding: 10px; }
-            .main-layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
-            .sidebar-stack { height: auto; overflow: visible; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-            .board-viewport { height: 600px; overflow-x: auto; align-items: flex-start; justify-content: flex-start; }
-            .scale-box { transform: none !important; }
-            .team-side-hero { width: 60px; }
-            .team-side-name, .team-top-name { font-size: 1.2rem; }
-            .grid-container { width: 700px; }
-        }
-
-        .back-btn { background: #21262d; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
-        .lb { color: #8b949e; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; }
-        .val { font-size: 1.8rem; font-weight: 900; }
+        .back-btn { background: #21262d; color: #fff; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; }
         .hidden { display: none !important; }
+        
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .board-viewport { overflow-x: auto; align-items: flex-start; }
+            .scale-box { transform: none !important; }
+        }
     </style>
 </head>
 <body>
     <div class="app-wrapper">
         <div id="view-list">
-            <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
-                <h1 style="font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; color: var(--gold); margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">LIVE DASHBOARD</h1>
-                <div id="mount-list" style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                    <div style="grid-column: 1/-1; padding: 100px; color: #586069;">Initializing...</div>
-                </div>
+            <h1 style="text-align:center; font-size: 3rem; font-weight: 900; color: var(--gold); margin-bottom: 40px;">LIVE DASHBOARD</h1>
+            <div id="mount-list" style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div style="grid-column: 1/-1; padding: 100px; text-align:center; color: #586069;">Connecting to Database...</div>
             </div>
         </div>
 
-        <div id="view-board" class="hidden" style="height: 100%; display: flex; flex-direction: column;">
+        <div id="view-board" class="hidden">
             <div class="header">
                 <button class="back-btn" onclick="goHome()">← ALL BOARDS</button>
                 <h2 id="disp-title">BOARD NAME</h2>
                 <div class="score-pill">
-                    <img id="logo-afc-pill" src="" style="height: 25px; display: none;">
+                    <img id="logo-afc-pill" src="" style="height: 30px; display: none;">
                     <span id="disp-score">0 - 0</span>
-                    <img id="logo-nfc-pill" src="" style="height: 25px; display: none;">
+                    <img id="logo-nfc-pill" src="" style="height: 30px; display: none;">
                 </div>
             </div>
 
             <div class="main-layout">
                 <div class="sidebar-stack">
                     <div id="card-ben" class="sidebar-card" style="border-left: 6px solid var(--green); display: none;">
-                        <div class="lb" style="color: var(--green);">Benefitting</div>
-                        <div id="v-ben" class="val" style="font-size: 1.3rem;"></div>
+                        <div style="color:var(--green); font-size: 0.7rem; font-weight:900; text-transform:uppercase;">Benefitting</div>
+                        <div id="v-ben" style="font-size: 1.5rem; font-weight:900;"></div>
                     </div>
                     <div class="sidebar-card">
-                        <div class="lb">Squares Sold</div>
-                        <div id="v-sold" class="val">0/100</div>
+                        <div style="color:#8b949e; font-size: 0.7rem; font-weight:900; text-transform:uppercase;">Squares Sold</div>
+                        <div id="v-sold" style="font-size: 2rem; font-weight:900;">0/100</div>
                     </div>
                     <div class="sidebar-card">
-                        <div class="lb">Payouts</div>
-                        <div id="v-sched" style="font-size: 0.8rem; margin-top: 10px;"></div>
+                        <div style="color:#8b949e; font-size: 0.7rem; font-weight:900; text-transform:uppercase; margin-bottom:10px;">Payouts</div>
+                        <div id="v-sched" style="font-size: 0.9rem;"></div>
                     </div>
                     <div class="sidebar-card">
-                        <div class="lb">Payment Key</div>
-                        <div style="font-size: 0.75rem; margin-top: 12px; display: grid; gap: 10px;">
+                        <div style="color:#8b949e; font-size: 0.7rem; font-weight:900; text-transform:uppercase; margin-bottom:15px;">Payment Key</div>
+                        <div style="font-size: 0.8rem; display: grid; gap: 10px;">
                             <div style="display: flex; align-items: center;"><div class="dot p-venmo"></div> VENMO</div>
                             <div style="display: flex; align-items: center;"><div class="dot p-cashapp"></div> CASHAPP</div>
                             <div style="display: flex; align-items: center;"><div class="dot p-paypal"></div> PAYPAL</div>
@@ -214,21 +182,20 @@
                         </div>
                     </div>
                     <div class="sidebar-card">
-                        <div class="lb">Winners</div>
-                        <div id="v-wins" style="font-size: 0.75rem; margin-top: 10px;"></div>
+                        <div style="color:#8b949e; font-size: 0.7rem; font-weight:900; text-transform:uppercase; margin-bottom:10px;">Winners</div>
+                        <div id="v-wins" style="font-size: 0.8rem;"></div>
                     </div>
                 </div>
 
                 <div class="board-viewport" id="viewport">
                     <div class="scale-box" id="scaleBox">
                         <div class="team-top-hero">
-                            <img id="logo-nfc-lg" src="" class="logo-top" style="display: none;">
+                            <img id="logo-nfc-lg" src="" style="height: 60px; display: none;">
                             <div id="name-nfc-lg" class="team-top-name">NFC</div>
                         </div>
-
                         <div style="display: flex;">
                             <div class="team-side-hero">
-                                <img id="logo-afc-lg" src="" class="logo-side-rotated" style="display: none;">
+                                <img id="logo-afc-lg" src="" style="height: 60px; display: none; transform: rotate(-90deg); margin-bottom: 20px;">
                                 <div id="name-afc-lg" class="team-side-name">AFC</div>
                             </div>
                             <div id="mount-grid" class="grid-container"></div>
@@ -260,25 +227,17 @@
 
         function renderLinks() {
             const m = document.getElementById('mount-list'); m.innerHTML = '';
-            if (!boards.length) { m.innerHTML = '<div style="padding:100px;">No boards found.</div>'; return; }
+            if (!boards.length) { m.innerHTML = '<div style="padding:100px; text-align:center;">No boards found.</div>'; return; }
             boards.forEach(b => {
                 const d = document.createElement('div');
                 d.className = 'board-card';
-                d.onclick = () => { activeId = b.id; document.querySelector('.app-wrapper').style.overflow = 'hidden'; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); window.scrollTo(0,0); };
-                let badges = '';
-                if (b.score_change_mode) badges += `<span class="badge badge-live">Live</span>`;
-                if (b.fundraiser_mode) badges += `<span class="badge badge-fund" style="margin-right:45px;">Fundraiser</span>`;
-                d.innerHTML = `${badges}<h3 style="color:white; font-weight:900;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.7rem; text-transform:uppercase;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
+                d.onclick = () => { activeId = b.id; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); window.scrollTo(0,0); };
+                d.innerHTML = `<h3 style="color:white; font-weight:900; margin:0 0 10px 0;">${b.name}</h3><div style="color:#8b949e; font-weight:bold; font-size:0.8rem;">${(b.afc_team || 'AFC')} vs ${(b.nfc_team || 'NFC')}</div>`;
                 m.appendChild(d);
             });
         }
 
-        function goHome() { 
-            activeId = null; 
-            document.querySelector('.app-wrapper').style.overflow = 'auto'; 
-            document.getElementById('view-board').classList.add('hidden'); 
-            document.getElementById('view-list').classList.remove('hidden'); 
-        }
+        function goHome() { activeId = null; document.getElementById('view-board').classList.add('hidden'); document.getElementById('view-list').classList.remove('hidden'); }
 
         function renderActive() {
             const b = boards.find(x => x.id === activeId);
@@ -299,12 +258,12 @@
 
             const pbox = document.getElementById('v-sched'); pbox.innerHTML = '';
             const p = b.payouts || {};
-            if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:bold;">$${p.hit_payout || 0} PER HIT</div>`; }
+            if (b.score_change_mode) { pbox.innerHTML = `<div style="color:var(--blue); font-weight:bold; text-align:center;">$${p.hit_payout || 0} PER HIT</div>`; }
             else { [['Q1', p.q1, 'var(--red)'], ['Q2', p.q2, 'var(--green)'], ['Q3', p.q3, 'var(--gold)'], ['FINAL', p.final, 'var(--blue)']].forEach(i => {
-                pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:4px 0;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span>$${i[1] || 0}</span></div>`;
+                pbox.innerHTML += `<div style="display:flex; justify-content:space-between; padding:5px 0;"><span style="color:${i[2]}; font-weight:900;">${i[0]}</span><span style="font-weight:700;">$${i[1] || 0}</span></div>`;
             });}
 
-            if (b.fundraiser_mode && b.benefit_who) { document.getElementById('card-ben').style.display = 'block'; document.getElementById('v-ben').innerText = b.benefit_who; } else document.getElementById('card-ben').style.display = 'none';
+            if (b.fundraiser_mode & b.benefit_who) { document.getElementById('card-ben').style.display = 'block'; document.getElementById('v-ben').innerText = b.benefit_who; } else document.getElementById('card-ben').style.display = 'none';
             document.getElementById('v-sold').innerText = (b.squares || []).filter(s => s.player_name).length + ' / ' + (b.size || 100);
 
             const wbox = document.getElementById('v-wins'); wbox.innerHTML = '';
@@ -312,7 +271,7 @@
             if (!winners.length) wbox.innerHTML = '<div style="color:#586069; font-style:italic;">No winners yet...</div>';
             else winners.slice().reverse().forEach(w => {
                 const c = w.type.includes('Q1') ? 'var(--red)' : w.type.includes('Q2') ? 'var(--green)' : w.type.includes('Q3') ? 'var(--gold)' : 'var(--blue)';
-                wbox.innerHTML += `<div style="border-left:3px solid ${c}; padding-left:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.85rem;">${w.player}</b><br><small style="color:#8b949e;">${w.score}</small></div><b style="color:var(--green); font-size:0.85rem;">$${w.payout}</b></div>`;
+                wbox.innerHTML += `<div style="border-left:4px solid ${c}; padding: 10px; background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><b style="font-size:0.9rem;">${w.player}</b><br><small style="color:#8b949e;">${w.score}</small></div><b style="color:var(--green); font-size:1.1rem;">$${w.payout}</b></div>`;
             });
 
             drawGrid(b, winners);
@@ -325,7 +284,7 @@
                 const r = h.rev ? b.row_labels.indexOf(String(h.nfc % 10)) : b.row_labels.indexOf(String(h.afc % 10));
                 const c = h.rev ? b.col_labels.indexOf(String(h.afc % 10)) : b.col_labels.indexOf(String(h.nfc % 10));
                 const idx = findI(b, r, c);
-                if (idx !== -1 && h.payout > 0) res.push({ player: (b.squares[idx] && b.squares[idx].player_name) || 'Sq ' + (idx + 1), type: h.type || 'HIT', score: h.afc + '-' + h.nfc, payout: h.payout, index: idx });
+                if (idx !== -1 & h.payout > 0) res.push({ player: (b.squares[idx] && b.squares[idx].player_name) || 'Sq ' + (idx + 1), type: h.type || 'HIT', score: h.afc + '-' + h.nfc, payout: h.payout, index: idx });
             });
             return res;
         }
@@ -335,29 +294,35 @@
         function drawGrid(b, winners) {
             const m = document.getElementById('mount-grid'); m.innerHTML = '';
             const d = { 100: [10, 10, 1, 1], 50: [5, 10, 2, 1], 25: [5, 5, 2, 2], 10: [2, 5, 5, 2] }[b.size] || [10, 10, 1, 1];
+            
             m.appendChild(document.createElement('div')).className = 'cell cell-label';
-            for (let c = 0; c < 10; c++) { const l = m.appendChild(document.createElement('div')); l.className = 'cell cell-label'; l.innerText = b.col_labels[c]; }
-            for (let r = 0; r < 10; r++) { const l = m.appendChild(document.createElement('div')); l.className = 'cell cell-label'; l.innerText = b.row_labels[r]; l.style.gridRow = (r + 2); l.style.gridColumn = "1"; }
+            for (let c = 0; c < 10; c++) { const l = m.appendChild(document.createElement('div')); l.className = 'cell cell-label'; l.innerText = b.col_labels[c] || '-'; }
+            for (let r = 0; r < 10; r++) { const l = m.appendChild(document.createElement('div')); l.className = 'cell cell-label'; l.innerText = b.row_labels[r] || '-'; l.style.gridRow = (r + 2); l.style.gridColumn = "1"; }
+            
             for (let rs = 0; rs < d[0]; rs++) {
                 for (let cs = 0; cs < d[1]; cs++) {
                     const idx = rs * d[1] + cs; const sq = b.squares[idx]; if (!sq) continue;
                     const c = document.createElement('div'); c.className = 'cell cell-sq';
                     c.style.gridRow = (rs * d[2] + 2) + " / span " + d[2];
                     c.style.gridColumn = (cs * d[3] + 2) + " / span " + d[3];
-                    c.style.height = (52 * d[2]) + "px";
+                    c.style.height = (54 * d[2]) + "px";
+                    
                     if (sq.player_name) {
-                        c.innerHTML = `<span style="font-weight:900;">${sq.player_name}</span>`;
+                        c.innerHTML = `<span style="font-weight:800; font-size:0.85rem;">${sq.player_name}</span>`;
                         if (sq.is_paid && sq.payment_method) {
                             const pm = sq.payment_method.toLowerCase();
-                            let pcls = "p-other";
+                            let pcls = "p-other"; 
                             if (pm.includes("venmo")) pcls = "p-venmo";
                             else if (pm.includes("cashapp")) pcls = "p-cashapp";
                             else if (pm.includes("paypal")) pcls = "p-paypal";
                             c.innerHTML += `<div class="pay-mark ${pcls}"></div>`;
                         }
+                    } else {
+                        c.innerHTML = `<span class="avail-num">${idx + 1}</span>`;
+                        c.style.backgroundColor = 'var(--gold)';
                     }
-                    else { c.innerHTML = `<span class="avail-num">${idx + 1}</span>`; c.style.backgroundColor = 'var(--gold)'; c.style.boxShadow = '0 0 10px rgba(251, 197, 49, 0.4)'; }
-                    wins.forEach(w => {
+                    
+                    winners.forEach(w => {
                         if (w.index === idx) {
                             let bg = 'final'; if (w.type.includes('Q1')) bg = 'q1'; else if (w.type.includes('Q2')) bg = 'q2'; else if (w.type.includes('Q3')) bg = 'q3';
                             c.classList.add(bg); c.innerHTML += `<div class="tag">${w.type.split(' ')[0]}</div>`;
@@ -375,24 +340,14 @@
             if (!vp || !box) return;
 
             box.style.transform = 'scale(1)';
-            
-            const availW = vp.offsetWidth - 40;
-            const availH = vp.offsetHeight - 40;
+            const availW = vp.clientWidth - 50;
             const contentW = box.offsetWidth;
-            const contentH = box.offsetHeight;
-
-            if (!contentW || !contentH) return;
-
-            const scaleW = availW / contentW;
-            const scaleH = availH / contentH;
-            const scale = Math.min(scaleW, scaleH, 1);
-
+            if (!contentW) return;
+            const scale = Math.min(availW / contentW, 1);
             box.style.transform = `scale(${scale})`;
         }
 
-        window.addEventListener('load', () => setTimeout(handleScaling, 500));
         init();
     </script>
 </body>
 </html>
-
