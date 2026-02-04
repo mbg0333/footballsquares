@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,9 +63,10 @@
             align-items: start;
             flex-grow: 1;
             overflow: hidden;
+            min-height: 0;
         }
 
-        .sidebar-stack { overflow-y: auto; height: 100%; padding-right: 5px; }
+        .sidebar-stack { overflow-y: auto; height: 100%; padding-right: 5px; min-height: 0; }
         .sidebar-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
         
         .board-viewport {
@@ -80,6 +81,7 @@
             overflow: hidden; 
             height: 100%;
             position: relative;
+            min-height: 0;
         }
 
         .scale-box {
@@ -262,7 +264,7 @@
             boards.forEach(b => {
                 const d = document.createElement('div');
                 d.className = 'board-card';
-                d.onclick = () => { activeId = b.id; document.querySelector('.app-wrapper').style.overflow = 'hidden'; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); };
+                d.onclick = () => { activeId = b.id; document.querySelector('.app-wrapper').style.overflow = 'hidden'; document.getElementById('view-list').classList.add('hidden'); document.getElementById('view-board').classList.remove('hidden'); renderActive(); window.scrollTo(0,0); };
                 let badges = '';
                 if (b.score_change_mode) badges += `<span class="badge badge-live">Live</span>`;
                 if (b.fundraiser_mode) badges += `<span class="badge badge-fund" style="margin-right:45px;">Fundraiser</span>`;
@@ -314,7 +316,7 @@
             });
 
             drawGrid(b, winners);
-            setTimeout(handleScaling, 10);
+            setTimeout(handleScaling, 100);
         }
 
         function getWinners(b) {
@@ -330,7 +332,7 @@
 
         function findI(b, r, c) { if (r === -1 || c === -1) return -1; const d = { 100: [10, 10, 1, 1], 50: [5, 10, 2, 1], 25: [5, 5, 2, 2], 10: [2, 5, 5, 2] }[b.size] || [10, 10, 1, 1]; return (Math.floor(r / d[2]) * d[1]) + Math.floor(c / d[3]); }
 
-        function drawGrid(b, wins) {
+        function drawGrid(b, winners) {
             const m = document.getElementById('mount-grid'); m.innerHTML = '';
             const d = { 100: [10, 10, 1, 1], 50: [5, 10, 2, 1], 25: [5, 5, 2, 2], 10: [2, 5, 5, 2] }[b.size] || [10, 10, 1, 1];
             m.appendChild(document.createElement('div')).className = 'cell cell-label';
@@ -368,18 +370,27 @@
 
         function handleScaling() {
             if (window.innerWidth <= 900) return;
-            const vp = document.getElementById('viewport'); const box = document.getElementById('scaleBox');
+            const vp = document.getElementById('viewport');
+            const box = document.getElementById('scaleBox');
             if (!vp || !box) return;
-            
+
             box.style.transform = 'scale(1)';
-            const availW = vp.clientWidth - 40; 
-            const availH = vp.clientHeight - 40;
+            
+            const availW = vp.offsetWidth - 40;
+            const availH = vp.offsetHeight - 40;
             const contentW = box.offsetWidth;
             const contentH = box.offsetHeight;
+
             if (!contentW || !contentH) return;
-            const scale = Math.min(availW / contentW, availH / contentH, 1);
+
+            const scaleW = availW / contentW;
+            const scaleH = availH / contentH;
+            const scale = Math.min(scaleW, scaleH, 1);
+
             box.style.transform = `scale(${scale})`;
         }
+
+        window.addEventListener('load', () => setTimeout(handleScaling, 500));
         init();
     </script>
 </body>
